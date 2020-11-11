@@ -29,7 +29,7 @@ namespace NetCoreIdentity.Controllers
         {
             if (ModelState.IsValid)
             {
-                var identityResult = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
+                var identityResult = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
 
                 if (identityResult.Succeeded) {
                     return RedirectToAction("Index", "Panel");

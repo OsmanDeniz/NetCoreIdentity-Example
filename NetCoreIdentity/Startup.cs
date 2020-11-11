@@ -27,6 +27,15 @@ namespace NetCoreIdentity
                 opt.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<IdentityContext>();
             services.AddControllersWithViews();
+            
+            // Cookie ayarlari
+            services.ConfigureApplicationCookie(opt => {
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.Name = "LoginCookie";
+                opt.Cookie.SameSite = SameSiteMode.Strict;
+                opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                opt.ExpireTimeSpan = TimeSpan.FromDays(7);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
