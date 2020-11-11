@@ -45,6 +45,7 @@ namespace NetCoreIdentity
             // Cookie ayarlari
             services.ConfigureApplicationCookie(opt =>
             {
+                opt.LoginPath = "/Home/Index";
                 opt.Cookie.HttpOnly = true;
                 opt.Cookie.Name = "LoginCookie";
                 opt.Cookie.SameSite = SameSiteMode.Strict;
@@ -63,7 +64,10 @@ namespace NetCoreIdentity
 
             app.UseRouting();
             app.UseStaticFiles();
-
+            // PanelController icerisindeki Authorize attr kullanmak icin kullanilan middleware
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();

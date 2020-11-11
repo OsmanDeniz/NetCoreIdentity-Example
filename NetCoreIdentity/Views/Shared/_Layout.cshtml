@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/libs/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <button type="button" class="list-group-item list-group-item-action active disabled">
+                    Kategoriler
+                </button>
+                <a class="list-group-item list-group-item-action" asp-action="UpdateUser" asp-controller="Panel">Bilgilerimi Guncelle</a>
+                <a class="list-group-item list-group-item-action">Kategori 2</a>
+                <a class="list-group-item list-group-item-action">Kategori 3</a>
+                <a class="list-group-item list-group-item-action">Kategori 4</a>
+                <a class="list-group-item list-group-item-action">Kategori 5</a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

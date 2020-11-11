@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\libs\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>
