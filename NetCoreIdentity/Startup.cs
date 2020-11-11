@@ -19,17 +19,24 @@ namespace NetCoreIdentity
         {
             services.AddDbContext<IdentityContext>();
             // kayit ol vs alaninda hata mesajlarina takilmamak icin
-            services.AddIdentity<AppUser, AppRole>(opt => {
+            services.AddIdentity<AppUser, AppRole>(opt =>
+            {
+                // sifre ayarlari
                 opt.Password.RequireDigit = false;
                 opt.Password.RequireLowercase = false;
                 opt.Password.RequiredLength = 3;
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireUppercase = false;
+
+                //Kullanici engelleme
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+                opt.Lockout.MaxFailedAccessAttempts = 5;
             }).AddEntityFrameworkStores<IdentityContext>();
             services.AddControllersWithViews();
-            
+
             // Cookie ayarlari
-            services.ConfigureApplicationCookie(opt => {
+            services.ConfigureApplicationCookie(opt =>
+            {
                 opt.Cookie.HttpOnly = true;
                 opt.Cookie.Name = "LoginCookie";
                 opt.Cookie.SameSite = SameSiteMode.Strict;

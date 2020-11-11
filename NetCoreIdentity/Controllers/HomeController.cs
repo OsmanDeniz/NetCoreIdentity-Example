@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -29,12 +30,26 @@ namespace NetCoreIdentity.Controllers
         {
             if (ModelState.IsValid)
             {
-                var identityResult = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
+                // en sonda bulunan true 5 kere yanlis giriste hesabi kilitleme islemi icin. Bir onceki cookie ile ilgili durumdur.
+                var identityResult = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, true);
 
-                if (identityResult.Succeeded) {
+                if (identityResult.IsLockedOut)
+                {
+                    var remaindLockOutTime = await _userManager.GetLockoutEndDateAsync(await _userManager.FindByNameAsync(model.Username));
+                    var blockedTime = remaindLockOutTime.Value;
+                    var remaindTime = blockedTime.Minute - DateTime.Now.Minute;
+
+                    ModelState.AddModelError("", "Hesap kilitlenmistir. Bir yanlislik oldugunu dusunuyorsaniz admin ile iletisime geciniz.");
+                    ModelState.AddModelError("", $"Kalan Sure {remaindTime} dakikadir.");
+                    return View("Index", model);
+                }
+
+                if (identityResult.Succeeded)
+                {
                     return RedirectToAction("Index", "Panel");
                 }
-                ModelState.AddModelError("","Kullanici Adi veya Sifre hatali");
+                var LogInCount = await _userManager.GetAccessFailedCountAsync(await _userManager.FindByNameAsync(model.Username));
+                ModelState.AddModelError("", $"Kullanici Adi veya Sifre hatali, kalan giris sayisi {5 - LogInCount}");
             }
             return View("Index", model);
         }
