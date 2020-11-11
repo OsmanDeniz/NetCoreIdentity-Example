@@ -1,37 +1,45 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetCoreIdentity.Context;
+using NetCoreIdentity.CustomValidator;
 
 namespace NetCoreIdentity
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<IdentityContext>();
-            // kayit ol vs alaninda hata mesajlarina takilmamak icin
+            //// kayit ol vs alaninda hata mesajlarina takilmamak icin
+            //services.AddIdentity<AppUser, AppRole>(opt =>
+            //{
+            //    // sifre ayarlari
+            //    opt.Password.RequireDigit = false;
+            //    opt.Password.RequireLowercase = false;
+            //    opt.Password.RequiredLength = 3;
+            //    opt.Password.RequireNonAlphanumeric = false;
+            //    opt.Password.RequireUppercase = false;
+
+            //    //Kullanici engelleme
+            //    opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+            //    opt.Lockout.MaxFailedAccessAttempts = 5;
+            //}).AddEntityFrameworkStores<IdentityContext>();
+
+
+            ///Hata mesajlarini Turkcelestirmek icin yukaridaki kod blogu degistirilecegi icin yedek alarak
+            /// bu islemi gerceklestirmek istedim. Bu sayede onceki ve sonraki kod farkliliklari gorulmektedir.
             services.AddIdentity<AppUser, AppRole>(opt =>
             {
-                // sifre ayarlari
-                opt.Password.RequireDigit = false;
-                opt.Password.RequireLowercase = false;
-                opt.Password.RequiredLength = 3;
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequireUppercase = false;
-
                 //Kullanici engelleme
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
                 opt.Lockout.MaxFailedAccessAttempts = 5;
-            }).AddEntityFrameworkStores<IdentityContext>();
+            }).AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<IdentityContext>();
+
+
             services.AddControllersWithViews();
 
             // Cookie ayarlari
