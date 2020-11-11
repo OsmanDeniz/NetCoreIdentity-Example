@@ -2,28 +2,30 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<table class="table table-hover table-sm">
-    <tr>
-        <th>Isim: </th>
-        <td>@Model.Name</td>
-    </tr>
-    <tr>
-        <th>Soyisim: </th>
-        <td>@Model.Surname</td>
-    </tr>
-    <tr>
-        <th>Email: </th>
-        <td>@Model.Email</td>
-    </tr>
-    <tr>
-        <th>Telefon: </th>
-        <td>@Model.PhoneNumber</td>
-    </tr>
-    <tr>
-        <th>Resim: </th>
-        <td>@Model.PictureURL</td>
-        <td>  <img src="~/img/@Model.PictureURL" class="img-fluid w-50 h-50"  alt="ProfilePicture" />      </td>
-    </tr>
-
-</table>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-hover table-sm">
+            <tr>
+                <th>Isim: </th>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <th>Soyisim: </th>
+                <td>@Model.Surname</td>
+            </tr>
+            <tr>
+                <th>Email: </th>
+                <td>@Model.Email</td>
+            </tr>
+            <tr>
+                <th>Telefon: </th>
+                <td>@Model.PhoneNumber</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <tr>
+            <td>  <img src="~/img/@Model.PictureURL" class="img-fluid w-75 img-thumbnail float-right" alt="@Model.Name" />      </td>
+        </tr>
+    </div>
+</div>
