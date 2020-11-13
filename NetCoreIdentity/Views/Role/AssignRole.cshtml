@@ -1,0 +1,32 @@
+﻿@model List<RoleAssignViewModel>
+@{
+    ViewData["Title"] = "AssignRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form class="w-50 p-3 mx-auto" asp-action="AssignRole" method="post">
+    <table class="table table-hover border">
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>
+                    <input type="hidden" asp-for="@Model[i].RoleId" />
+                </td>
+                <td>
+                    <input type="hidden" asp-for="@Model[i].Name" />
+                </td>
+                <td>
+                    <input type="checkbox" asp-for="@Model[i].Exists" class="form-check-input" />
+                </td>
+                <td>
+                    <label class="form-check-label" for="@Model[i].Exists ">@Model[i].Name</label>
+                </td>
+            </tr>
+        }
+
+
+    </table>
+    <button class="btn btn-outline-primary btn-sm form-control">Kaydet</button>
+
+</form>
