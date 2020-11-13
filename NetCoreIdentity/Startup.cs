@@ -34,6 +34,11 @@ namespace NetCoreIdentity
             /// bu islemi gerceklestirmek istedim. Bu sayede onceki ve sonraki kod farkliliklari gorulmektedir.
             services.AddIdentity<AppUser, AppRole>(opt =>
             {
+                // isnotallowed durumu : email dogrulamasi koyulan bir sistemde
+                // dogrulama islemi yapilana kadar sisteme girisini engelleme durumu
+                opt.SignIn.RequireConfirmedEmail = true;
+
+
                 //Kullanici engelleme
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
                 opt.Lockout.MaxFailedAccessAttempts = 5;

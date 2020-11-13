@@ -43,6 +43,12 @@ namespace NetCoreIdentity.Controllers
                     return View("Index", model);
                 }
 
+                // Email dogrulamis mi diye kontrol etme
+                //if (identityResult.IsNotAllowed) {
+                //    ModelState.AddModelError("","Lutfen mail adresinizi dogrulayin.");
+                //    return View("Index", model);
+                //}
+
                 if (identityResult.Succeeded)
                 {
                     return RedirectToAction("Index", "Panel");
