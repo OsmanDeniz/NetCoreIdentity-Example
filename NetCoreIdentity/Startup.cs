@@ -36,7 +36,7 @@ namespace NetCoreIdentity
             {
                 // isnotallowed durumu : email dogrulamasi koyulan bir sistemde
                 // dogrulama islemi yapilana kadar sisteme girisini engelleme durumu
-                opt.SignIn.RequireConfirmedEmail = true;
+               // opt.SignIn.RequireConfirmedEmail = true;
 
 
                 //Kullanici engelleme
