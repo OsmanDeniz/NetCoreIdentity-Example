@@ -93,5 +93,9 @@ namespace NetCoreIdentity.Controllers
 
             return View(viewModel);
         }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
