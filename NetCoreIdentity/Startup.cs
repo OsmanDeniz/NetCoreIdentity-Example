@@ -15,35 +15,37 @@ namespace NetCoreIdentity
         {
             services.AddDbContext<IdentityContext>();
             //// kayit ol vs alaninda hata mesajlarina takilmamak icin
-            //services.AddIdentity<AppUser, AppRole>(opt =>
-            //{
-            //    // sifre ayarlari
-            //    opt.Password.RequireDigit = false;
-            //    opt.Password.RequireLowercase = false;
-            //    opt.Password.RequiredLength = 3;
-            //    opt.Password.RequireNonAlphanumeric = false;
-            //    opt.Password.RequireUppercase = false;
-
-            //    //Kullanici engelleme
-            //    opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
-            //    opt.Lockout.MaxFailedAccessAttempts = 5;
-            //}).AddEntityFrameworkStores<IdentityContext>();
-
-
-            ///Hata mesajlarini Turkcelestirmek icin yukaridaki kod blogu degistirilecegi icin yedek alarak
-            /// bu islemi gerceklestirmek istedim. Bu sayede onceki ve sonraki kod farkliliklari gorulmektedir.
             services.AddIdentity<AppUser, AppRole>(opt =>
             {
-                // isnotallowed durumu : email dogrulamasi koyulan bir sistemde
-                // dogrulama islemi yapilana kadar sisteme girisini engelleme durumu
-               // opt.SignIn.RequireConfirmedEmail = true;
-
+                // sifre ayarlari
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequiredLength = 1;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
 
                 //Kullanici engelleme
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
                 opt.Lockout.MaxFailedAccessAttempts = 5;
-            }).AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<IdentityContext>();
+            }).AddEntityFrameworkStores<IdentityContext>();
 
+
+            ///Hata mesajlarini Turkcelestirmek icin yukaridaki kod blogu degistirilecegi icin yedek alarak
+            /// bu islemi gerceklestirmek istedim. Bu sayede onceki ve sonraki kod farkliliklari gorulmektedir.
+            //services.AddIdentity<AppUser, AppRole>(opt =>
+            //{
+            //    // isnotallowed durumu : email dogrulamasi koyulan bir sistemde
+            //    // dogrulama islemi yapilana kadar sisteme girisini engelleme durumu
+            //    // opt.SignIn.RequireConfirmedEmail = true;
+
+
+            //    //Kullanici engelleme
+            //    opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+            //    opt.Lockout.MaxFailedAccessAttempts = 5;
+            //})/*.AddErrorDescriber<CustomIdentityValidator>()*/.AddEntityFrameworkStores<IdentityContext>();
+
+            //policy ekleme // claim bazli yetkilendirme
+            services.AddAuthorization(opt => { opt.AddPolicy("FemalePolicy", cnf => { cnf.RequireClaim("gender", "female"); }); });
 
             services.AddControllersWithViews();
 
@@ -73,7 +75,7 @@ namespace NetCoreIdentity
             // PanelController icerisindeki Authorize attr kullanmak icin kullanilan middleware
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
